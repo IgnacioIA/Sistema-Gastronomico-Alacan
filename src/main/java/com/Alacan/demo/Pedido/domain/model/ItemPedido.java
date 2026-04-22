@@ -1,4 +1,4 @@
-package com.Alacan.demo.Pedido.domain;
+package com.Alacan.demo.Pedido.domain.model;
 
 import java.math.BigDecimal;
 
@@ -87,6 +87,10 @@ public class ItemPedido {
     }
 
     public Long getId() {
+        return id;
+    }
+
+    public Long getProductoId(){
         return productoId;
     }
 

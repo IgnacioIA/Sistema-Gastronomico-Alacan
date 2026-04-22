@@ -1,7 +1,7 @@
 package com.Alacan.demo.Pedido.application;
 
-import com.Alacan.demo.Pedido.domain.Pedido;
-import com.Alacan.demo.Pedido.domain.PedidoRepository;
+import com.Alacan.demo.Pedido.domain.model.Pedido;
+import com.Alacan.demo.Pedido.domain.repository.PedidoRepository;
 
 public class EliminarItemService {
 

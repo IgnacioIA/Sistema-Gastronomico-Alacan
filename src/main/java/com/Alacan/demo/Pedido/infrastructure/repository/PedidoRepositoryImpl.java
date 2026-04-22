@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import com.Alacan.demo.Pedido.domain.Pedido;
-import com.Alacan.demo.Pedido.domain.PedidoRepository;
+import com.Alacan.demo.Pedido.domain.model.Pedido;
+import com.Alacan.demo.Pedido.domain.repository.PedidoRepository;
 
 @Repository
 public class PedidoRepositoryImpl implements PedidoRepository {

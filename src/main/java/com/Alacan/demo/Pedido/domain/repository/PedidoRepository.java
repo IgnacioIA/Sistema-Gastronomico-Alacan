@@ -1,7 +1,9 @@
-package com.Alacan.demo.Pedido.domain;
+package com.Alacan.demo.Pedido.domain.repository;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.Alacan.demo.Pedido.domain.model.Pedido;
 
 public interface PedidoRepository {
 

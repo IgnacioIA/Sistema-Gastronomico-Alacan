@@ -2,8 +2,9 @@ package com.Alacan.demo.Pedido.api.mapper;
 
 import com.Alacan.demo.Pedido.api.dto.ItemDTO;
 import com.Alacan.demo.Pedido.api.dto.PedidoDTO;
-import com.Alacan.demo.Pedido.domain.ItemPedido;
-import com.Alacan.demo.Pedido.domain.Pedido;
+import com.Alacan.demo.Pedido.domain.model.ItemPedido;
+import com.Alacan.demo.Pedido.domain.model.Pedido;
+
 
 
 public class PedidoMapper {

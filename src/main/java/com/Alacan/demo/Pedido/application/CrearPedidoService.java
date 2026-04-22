@@ -3,8 +3,8 @@ package com.Alacan.demo.Pedido.application;
 import org.springframework.stereotype.Service;
 
 import com.Alacan.demo.Pedido.api.dto.CrearPedidoRequest;
-import com.Alacan.demo.Pedido.domain.Pedido;
-import com.Alacan.demo.Pedido.domain.PedidoRepository;
+import com.Alacan.demo.Pedido.domain.model.Pedido;
+import com.Alacan.demo.Pedido.domain.repository.PedidoRepository;
 
 @Service
 public class CrearPedidoService {

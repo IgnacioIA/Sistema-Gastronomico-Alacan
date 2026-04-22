@@ -1,7 +1,7 @@
 package com.Alacan.demo.Pedido.api.dto;
 
-import com.Alacan.demo.Pedido.domain.CanalPedido;
-import com.Alacan.demo.Pedido.domain.TipoPedido;
+import com.Alacan.demo.Pedido.domain.model.CanalPedido;
+import com.Alacan.demo.Pedido.domain.model.TipoPedido;
 
 public class CrearPedidoRequest {
 

@@ -1,4 +1,4 @@
-package com.Alacan.demo.Pedido.domain;
+package com.Alacan.demo.Pedido.domain.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

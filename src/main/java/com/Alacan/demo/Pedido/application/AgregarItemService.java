@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 import org.springframework.stereotype.Service;
 
-import com.Alacan.demo.Pedido.domain.Pedido;
-import com.Alacan.demo.Pedido.domain.PedidoRepository;
+import com.Alacan.demo.Pedido.domain.model.Pedido;
+import com.Alacan.demo.Pedido.domain.repository.PedidoRepository;
 
 @Service
 public class AgregarItemService {
