@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.Alacan.demo.Catalogo.domain.model.Combo;
+import com.Alacan.demo.Catalogo.domain.model.Producto;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -68,7 +71,32 @@ public class Pedido {
         }
     }
 
-    public void agregarItem(Long productoId, String nombre, BigDecimal precio, int cantidad, String observacion) {
+    public void agregarProducto(Producto producto, int cantidad, String observacion) {
+        if (producto == null) {
+            throw new IllegalArgumentException("Producto requerido");
+        }
+
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("Cantidad inválida");
+        }
+
+        ItemProducto existente = buscarItemProducto(producto.getId());
+
+        if (existente != null) {
+            existente.aumentarCantidad(cantidad);
+        } else {
+            items.add(new ItemProducto(
+                    producto.getId(),
+                    producto.getNombreProducto(),
+                    producto.getPrecioVenta(),
+                    cantidad,
+                    observacion));
+        }
+
+        recalcularTotal();
+    }
+
+    public void agregarCombo(Combo combo, int cantidad, String observacion) {
 
         validarAgregarItem();
 
@@ -76,23 +104,26 @@ public class Pedido {
             throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
         }
 
-        Optional<ItemPedido> existente = buscarItem(productoId);
-
-        if (existente.isPresent()) {
-            existente.get().aumentarCantidad(cantidad);
+        ItemCombo existente = buscarItemComboPorId(combo.getId());
+        if (existente != null) {
+            existente.aumentarCantidad(cantidad);
         } else {
-            items.add(new ItemPedido(productoId, nombre, precio, cantidad, observacion));
+            items.add(new ItemCombo(
+                    combo.getId(),
+                    combo.getNombreCombo(), // asumido
+                    combo.getPrecioCombo(), // asumido
+                    cantidad,
+                    observacion));
         }
 
         recalcularTotal();
     }
 
-    public void eliminarItem(Long productoId) {
+    public void eliminarItem(Long itemId) {
 
         validarEliminarItem();
 
-        ItemPedido item = buscarItem(productoId)
-                .orElseThrow(() -> new IllegalArgumentException("Item no encontrado"));
+        ItemPedido item = buscarItemPorId(itemId);
 
         items.remove(item);
 
@@ -101,17 +132,12 @@ public class Pedido {
 
     public void modificarCantidadItem(Long itemId, int nuevaCantidad) {
 
-        if (nuevaCantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
-        }
-
         validarModificarCantidad();
 
-        ItemPedido item = buscarItem(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("Item no encontrado"));
+        ItemPedido item = buscarItemPorId(itemId);
 
-        if (item == null) {
-            throw new IllegalArgumentException("El item no existe en el pedido");
+        if (nuevaCantidad < 0) {
+            throw new IllegalArgumentException("Cantidad inválida");
         }
 
         if (nuevaCantidad == 0) {
@@ -123,7 +149,7 @@ public class Pedido {
         recalcularTotal();
     }
 
-    public void disminuirCantidadItem(Long productoId, int cantidad) {
+    public void disminuirCantidadItem(Long itemId, int cantidad) {
 
         validarModificarCantidad();
 
@@ -131,10 +157,9 @@ public class Pedido {
             throw new IllegalArgumentException("Cantidad inválida");
         }
 
-        ItemPedido item = buscarItem(productoId)
-                .orElseThrow(() -> new IllegalArgumentException("Item no encontrado"));
+        ItemPedido item = buscarItemPorId(itemId);
 
-        if (item.quedariaEnCero(cantidad)) {
+        if (item.getCantidad() == cantidad) {
             items.remove(item);
         } else {
             item.disminuirCantidad(cantidad);
@@ -143,10 +168,29 @@ public class Pedido {
         recalcularTotal();
     }
 
-    private Optional<ItemPedido> buscarItem(Long productoId) {
+    private ItemProducto buscarItemProducto(Long productoId) {
         return items.stream()
-                .filter(i -> i.esDelProducto(productoId))
-                .findFirst();
+                .filter(i -> i instanceof ItemProducto)
+                .map(i -> (ItemProducto) i)
+                .filter(i -> i.getProductoId().equals(productoId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private ItemPedido buscarItemPorId(Long itemId) {
+        return items.stream()
+                .filter(i -> i.getId() != null && i.getId().equals(itemId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Item no encontrado"));
+    }
+
+    private ItemCombo buscarItemComboPorId(Long idItemCombo) {
+        return items.stream()
+                .filter(i -> i instanceof ItemCombo)
+                .map(i -> (ItemCombo) i)
+                .filter(i -> i.getComboId().equals(idItemCombo))
+                .findFirst()
+                .orElse(null);
     }
 
     private void validarAgregarItem() {

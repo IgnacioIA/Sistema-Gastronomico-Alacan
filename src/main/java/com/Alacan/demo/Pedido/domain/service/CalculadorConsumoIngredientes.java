@@ -4,18 +4,26 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.Alacan.demo.Catalogo.domain.model.Combo;
+import com.Alacan.demo.Catalogo.domain.model.OpcionCombo;
 import com.Alacan.demo.Catalogo.domain.model.Producto;
 import com.Alacan.demo.Catalogo.domain.model.Receta;
+import com.Alacan.demo.Catalogo.domain.repository.ComboRepository;
 import com.Alacan.demo.Catalogo.domain.repository.ProductoRepository;
+import com.Alacan.demo.Pedido.domain.model.ItemCombo;
 import com.Alacan.demo.Pedido.domain.model.ItemPedido;
+import com.Alacan.demo.Pedido.domain.model.ItemProducto;
 import com.Alacan.demo.Pedido.domain.model.Pedido;
 
 public class CalculadorConsumoIngredientes {
 
     private ProductoRepository productoRepository;
+    private ComboRepository comboRepository;
 
-    public CalculadorConsumoIngredientes(ProductoRepository productoRepository){
-        this.productoRepository=productoRepository;
+    public CalculadorConsumoIngredientes(ProductoRepository productoRepository,
+                                         ComboRepository comboRepository) {
+        this.productoRepository = productoRepository;
+        this.comboRepository = comboRepository;
     }
 
     public Map<Long, BigDecimal> calcular(Pedido pedido) {
@@ -24,26 +32,44 @@ public class CalculadorConsumoIngredientes {
 
         for (ItemPedido item : pedido.getItems()) {
 
-            Producto producto = productoRepository.buscarPorId(item.getProductoId())
-                    .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+            if (item instanceof ItemProducto ip) {
 
-            int cantidadItem = item.getCantidad();
+                procesarProducto(ip.getProductoId(), ip.getCantidad(), consumo);
 
-            for (Receta receta : producto.getRecetas()) {
+            } else if (item instanceof ItemCombo ic) {
 
-                Long ingredienteId = receta.getIngredienteId();
+                Combo combo = comboRepository.buscarPorId(ic.getComboId())
+                        .orElseThrow(() -> new IllegalArgumentException("Combo no encontrado"));
 
-                BigDecimal cantidadNecesaria = receta.getCantidadNecesaria()
-                        .multiply(BigDecimal.valueOf(cantidadItem));
+                for (OpcionCombo opcion : combo.getOpciones()) {
 
-                consumo.merge(
-                        ingredienteId,
-                        cantidadNecesaria,
-                        BigDecimal::add
-                );
+                    Producto producto = opcion.getProductoBase(); // simplificación
+
+                    procesarProducto(producto.getId(), ic.getCantidad(), consumo);
+                }
             }
         }
 
         return consumo;
+    }
+
+    private void procesarProducto(Long productoId, int cantidadItem, Map<Long, BigDecimal> consumo) {
+
+        Producto producto = productoRepository.buscarPorId(productoId)
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+
+        for (Receta receta : producto.getRecetas()) {
+
+            Long ingredienteId = receta.getIngredienteId();
+
+            BigDecimal cantidadNecesaria = receta.getCantidadNecesaria()
+                    .multiply(BigDecimal.valueOf(cantidadItem));
+
+            consumo.merge(
+                    ingredienteId,
+                    cantidadNecesaria,
+                    BigDecimal::add
+            );
+        }
     }
 }

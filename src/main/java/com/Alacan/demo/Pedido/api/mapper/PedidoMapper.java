@@ -2,10 +2,10 @@ package com.Alacan.demo.Pedido.api.mapper;
 
 import com.Alacan.demo.Pedido.api.dto.ItemDTO;
 import com.Alacan.demo.Pedido.api.dto.PedidoDTO;
+import com.Alacan.demo.Pedido.domain.model.ItemCombo;
 import com.Alacan.demo.Pedido.domain.model.ItemPedido;
+import com.Alacan.demo.Pedido.domain.model.ItemProducto;
 import com.Alacan.demo.Pedido.domain.model.Pedido;
-
-
 
 public class PedidoMapper {
 
@@ -24,8 +24,7 @@ public class PedidoMapper {
                 pedido.getItems()
                         .stream()
                         .map(PedidoMapper::mapItem)
-                        .toList()
-        );
+                        .toList());
 
         return dto;
     }
@@ -34,12 +33,20 @@ public class PedidoMapper {
 
         ItemDTO dto = new ItemDTO();
         dto.setId(item.getId());
-        dto.setProductoNombre(item.getNombreProducto()); // asumido
         dto.setCantidad(item.getCantidad());
-        dto.setPrecioUnitario(item.getPrecioUnitario());
-        dto.setSubtotal(item.getSubtotal());
+        
+
+        if (item instanceof ItemProducto ip) {
+            dto.setTipo("PRODUCTO");
+            dto.setNombre(ip.getNombreItemProducto());
+            dto.setReferenciaId(ip.getProductoId());
+        } else if (item instanceof ItemCombo ic) {
+            dto.setTipo("COMBO");
+            dto.setNombre(ic.getNombreCombo());
+            dto.setReferenciaId(ic.getComboId());
+        }
 
         return dto;
     }
-    
+
 }

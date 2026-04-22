@@ -4,13 +4,15 @@ import java.math.BigDecimal;
 
 public class ItemDTO {
 
-     private Long id;
+    private Long id;
     private String productoNombre;
     private int cantidad;
+    private Long referenciaId; // productoId o comboId
     private BigDecimal precioUnitario;
     private BigDecimal subtotal;
+    private String tipo; // "PRODUCTO" o "COMBO"
 
-     public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -18,11 +20,11 @@ public class ItemDTO {
         this.id = id;
     }
 
-    public String getProductoNombre() {
+    public String getNombre() {
         return productoNombre;
     }
 
-    public void setProductoNombre(String productoNombre) {
+    public void setNombre(String productoNombre) {
         this.productoNombre = productoNombre;
     }
 
@@ -49,5 +51,20 @@ public class ItemDTO {
     public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
     }
-    
+
+    public String getTipo(){
+        return tipo;
+    }
+
+    public void setTipo(String tipo){
+        this.tipo = tipo;
+    }
+
+    public Long getReferenciaId(){
+        return referenciaId;
+    }
+
+    public void setReferenciaId(Long referenciaId){
+        this.referenciaId = referenciaId;
+    }
 }

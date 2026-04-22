@@ -15,12 +15,10 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
 
-
 @Entity
-@Table(name = "receta",
-       uniqueConstraints = {
-           @UniqueConstraint(columnNames = {"producto_id", "ingrediente_id"})
-       })
+@Table(name = "receta", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "producto_id", "ingrediente_id" })
+})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Receta {
 
@@ -40,8 +38,8 @@ public class Receta {
     private BigDecimal cantidadNecesaria;
 
     public Receta(Producto producto,
-                  Ingrediente ingrediente,
-                  BigDecimal cantidadNecesaria) {
+            Ingrediente ingrediente,
+            BigDecimal cantidadNecesaria) {
 
         if (producto == null) {
             throw new IllegalArgumentException("Producto requerido");
@@ -72,11 +70,13 @@ public class Receta {
     }
 
     public Long getIngredienteId() {
+        if (ingrediente == null) {
+            throw new IllegalStateException("Ingrediente no inicializado");
+        }
         return ingrediente.getId();
     }
 
-    public BigDecimal getCantidadNecesaria(){
+    public BigDecimal getCantidadNecesaria() {
         return cantidadNecesaria;
     }
 }
-

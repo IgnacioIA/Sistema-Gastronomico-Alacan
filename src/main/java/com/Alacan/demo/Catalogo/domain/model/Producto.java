@@ -90,4 +90,16 @@ public class Producto {
 
         receta.modificarCantidad(nuevaCantidad);
     }
+
+    public Long getId(){
+        return id;
+    }
+
+    public String getNombreProducto(){
+        return nombreProducto;
+    }
+
+    public BigDecimal getPrecioVenta(){
+        return precioVenta;
+    }
 }
