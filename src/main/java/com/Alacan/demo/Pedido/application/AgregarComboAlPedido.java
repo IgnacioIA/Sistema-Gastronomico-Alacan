@@ -10,11 +10,11 @@ import com.Alacan.demo.Pedido.domain.repository.PedidoRepository;
 @Service
 public class AgregarComboAlPedido {
 
-     private final PedidoRepository pedidoRepository;
+    private final PedidoRepository pedidoRepository;
     private final ComboRepository comboRepository;
 
     public AgregarComboAlPedido(PedidoRepository pedidoRepository,
-                               ComboRepository comboRepository) {
+            ComboRepository comboRepository) {
         this.pedidoRepository = pedidoRepository;
         this.comboRepository = comboRepository;
     }
@@ -31,5 +31,5 @@ public class AgregarComboAlPedido {
 
         pedidoRepository.guardar(pedido);
     }
-    
+
 }

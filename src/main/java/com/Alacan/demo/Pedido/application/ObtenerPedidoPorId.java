@@ -1,10 +1,13 @@
 package com.Alacan.demo.Pedido.application;
 
+import org.springframework.stereotype.Service;
+
 import com.Alacan.demo.Pedido.api.dto.PedidoDTO;
 import com.Alacan.demo.Pedido.api.mapper.PedidoMapper;
 import com.Alacan.demo.Pedido.domain.model.Pedido;
 import com.Alacan.demo.Pedido.domain.repository.PedidoRepository;
 
+@Service
 public class ObtenerPedidoPorId {
 
     private PedidoRepository pedidoRepository;
