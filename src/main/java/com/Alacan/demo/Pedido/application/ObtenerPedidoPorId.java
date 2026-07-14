@@ -10,7 +10,11 @@ import com.Alacan.demo.Pedido.domain.repository.PedidoRepository;
 @Service
 public class ObtenerPedidoPorId {
 
-    private PedidoRepository pedidoRepository;
+    private final PedidoRepository pedidoRepository;
+
+    public ObtenerPedidoPorId(PedidoRepository pedidoRepository) {
+        this.pedidoRepository = pedidoRepository;
+    }
 
     public PedidoDTO ejecutar(Long pedidoId) {
         Pedido pedido = pedidoRepository.buscarPorId(pedidoId)

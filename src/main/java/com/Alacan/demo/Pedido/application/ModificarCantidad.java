@@ -1,11 +1,14 @@
 package com.Alacan.demo.Pedido.application;
 
+import org.springframework.stereotype.Service;
+
 import com.Alacan.demo.Pedido.domain.model.Pedido;
 import com.Alacan.demo.Pedido.domain.repository.PedidoRepository;
 
+@Service
 public class ModificarCantidad {
 
-    private PedidoRepository pedidoRepository;
+    private final PedidoRepository pedidoRepository;
 
     public ModificarCantidad(PedidoRepository pedidoRepository){
         this.pedidoRepository = pedidoRepository;

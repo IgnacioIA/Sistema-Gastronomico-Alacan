@@ -284,6 +284,26 @@ public class Pedido {
         return estado;
     }
 
+    public TipoPedido getTipoPedido() {
+        return tipoPedido;
+    }
+
+    public CanalPedido getCanal() {
+        return canal;
+    }
+
+    public Long getClienteId() {
+        return clienteId;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
     public BigDecimal getTotal() {
         return total;
     }

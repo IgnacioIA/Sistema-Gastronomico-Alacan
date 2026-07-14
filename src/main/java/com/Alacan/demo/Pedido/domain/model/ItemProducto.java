@@ -46,7 +46,11 @@ public class ItemProducto extends ItemPedido {
         return productoId;
     }
 
-    public String getNombreItemProducto(){
+    public String getNombreItemProducto() {
         return nombreProducto;
+    }
+
+    public BigDecimal getPrecioUnitario() {
+        return precioUnitario;
     }
 }

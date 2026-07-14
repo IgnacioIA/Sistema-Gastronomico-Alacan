@@ -46,7 +46,11 @@ public class ItemCombo extends ItemPedido {
         return comboId;
     }
 
-    public String getNombreCombo(){
+    public String getNombreCombo() {
         return nombreCombo;
+    }
+
+    public BigDecimal getPrecioCombo() {
+        return precioCombo;
     }
 }
